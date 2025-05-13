@@ -103,6 +103,10 @@ public class SecurityConfig {
     OAuth2TokenCustomizer<JwtEncodingContext> oauth2TokenCustomizer() {
         return context -> {
             context.getClaims().claim("test", "test");
+
+            var authories = context.getPrincipal().getAuthorities(); //List of GrantedAuthority
+
+            context.getClaims().claim("authorities", authories.stream().map(a -> a.getAuthority()).toList());
         };
     }
 }
